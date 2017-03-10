@@ -3,7 +3,7 @@ from django.core.urlresolvers import resolve
 from django.test import TestCase
 from django.http import HttpRequest
 from django.utils.html import escape
-
+from lists.forms import ItemForm
 from lists.views import home_page
 
 class HomePageTest(TestCase):
@@ -12,6 +12,10 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
         html = response.content.decode('utf8')
         self.assertTemplateUsed(response, 'home.html')
+
+    def test_home_page_uses_item_form(self):
+        response = self.client.get('/')
+        self.assertIsInstance(response.context['form'], ItemForm)
 
 
 class ListViewTest(TestCase):
